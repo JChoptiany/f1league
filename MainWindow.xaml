@@ -7,12 +7,145 @@
         mc:Ignorable="d"
         Title="System zarządzania oławską wirtualną ligą F1" Height="775" Width="1280">
     <Grid>
-        <DataGrid Margin="832,82,24,88"/>
-        <Button Content="Dodaj wyniki wyścigu" HorizontalAlignment="Left" Margin="46,63,0,0" VerticalAlignment="Top" Width="268" Height="39" FontSize="20"/>
+        <DataGrid x:Name="RankingDataGrid" AutoGenerateColumns="True" Margin="832,82,24,88" FontSize="22"/>
+        <Button x:Name="AddResultsButton" Content="Wczytaj dane ze zdjęcia (BETA)" HorizontalAlignment="Left" Margin="144,82,0,0" VerticalAlignment="Top" Width="272" Height="39" FontSize="20" Click="AddResultsButton_Click"/>
         <Label x:Name="TableTitleLabel" Content="Klasyfikacja indywidualna" HorizontalAlignment="Left" Margin="832,36,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" RenderTransformOrigin="0.333,0.766" Width="424" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
         <RadioButton x:Name="IndividualRadioButton" Content="Indywidualna" HorizontalAlignment="Left" Margin="1017,694,0,0" VerticalAlignment="Top" Checked="IndividualRadioButton_Checked" IsChecked="True" FontSize="16"/>
         <RadioButton x:Name="TeamRadioButton" Content="Drużynowa" HorizontalAlignment="Left" Margin="1158,694,0,0" VerticalAlignment="Top" FontSize="16" Checked="TeamRadioButton_Checked"/>
         <Label Content="Wyświetlana klasyfikacja:" HorizontalAlignment="Left" Margin="827,688,0,0" VerticalAlignment="Top" FontSize="16"/>
-
+        <Label Content="1." HorizontalAlignment="Left" Margin="46,148,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="4." HorizontalAlignment="Left" Margin="46,366,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="2." HorizontalAlignment="Left" Margin="46,219,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="3." HorizontalAlignment="Left" Margin="46,296,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="6." HorizontalAlignment="Left" Margin="46,514,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="5." HorizontalAlignment="Left" Margin="46,444,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="7." HorizontalAlignment="Left" Margin="46,582,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <Label Content="8." HorizontalAlignment="Left" Margin="46,650,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36"/>
+        <ComboBox Name="Player1ComboBox" HorizontalAlignment="Left" Margin="105,152,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player2ComboBox" HorizontalAlignment="Left" Margin="105,223,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player3ComboBox" HorizontalAlignment="Left" Margin="105,296,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player4ComboBox" HorizontalAlignment="Left" Margin="105,370,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player5ComboBox" HorizontalAlignment="Left" Margin="105,444,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player6ComboBox" HorizontalAlignment="Left" Margin="105,514,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player7ComboBox" HorizontalAlignment="Left" Margin="105,584,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <ComboBox Name="Player8ComboBox" HorizontalAlignment="Left" Margin="105,652,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem>Wybierz zawodnika</ComboBoxItem>
+            <ComboBoxItem>jqob</ComboBoxItem>
+            <ComboBoxItem>TOX</ComboBoxItem>
+            <ComboBoxItem>damian</ComboBoxItem>
+            <ComboBoxItem>kapsiu</ComboBoxItem>
+            <ComboBoxItem>Lemi</ComboBoxItem>
+            <ComboBoxItem>Adamond</ComboBoxItem>
+            <ComboBoxItem>Pacyna</ComboBoxItem>
+            <ComboBoxItem>WOW</ComboBoxItem>
+        </ComboBox>
+        <StackPanel Margin="492,198,752,-2">
+            <RadioButton x:Name="FastestLap1RadioButton" Content="" FontSize="72" Margin="0,-25,0,0" Height="93"/>
+            <RadioButton x:Name="FastestLap2RadioButton" Content="" FontSize="72" Margin="0,-25,0,0" Height="100"/>
+            <RadioButton x:Name="FastestLap3RadioButton" Content="" FontSize="72" Margin="0,-25,0,0" Height="98"/>
+            <RadioButton x:Name="FastestLap4RadioButton" Content="" FontSize="72" Margin="0,-25,0,0" Height="100"/>
+            <RadioButton x:Name="FastestLap5RadioButton" Content="" FontSize="72" Margin="0,-25,0,0"/>
+            <RadioButton x:Name="FastestLap6RadioButton" Content="" FontSize="72" Margin="0,-25,0,0"/>
+            <RadioButton x:Name="FastestLap7RadioButton" Content="" FontSize="72" Margin="0,-25,0,0" Height="96"/>
+            <RadioButton x:Name="FastestLap8RadioButton" Content="" FontSize="72" Margin="0,-25,0,0" Height="40"/>
+        </StackPanel>
+        <TextBlock Text="Najszybsze okrążenie" TextWrapping="WrapWithOverflow"  HorizontalAlignment="Left" Margin="461,82,0,0" VerticalAlignment="Top" Width="98" Height="65" FontSize="18" FontWeight="Bold" TextAlignment="Center">
+        </TextBlock>
+        <DatePicker x:Name="RaceDatePicker" HorizontalAlignment="Left" Margin="546,365,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="546,271,0,0" VerticalAlignment="Top" Width="242" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="Wybierz tor"/>
+            <ComboBoxItem Content="Australia"/>
+            <ComboBoxItem Content="Austria"/>
+            <ComboBoxItem Content="Azerbejdżan"/>
+            <ComboBoxItem Content="Chiny"/>
+            <ComboBoxItem Content="Hiszpania"/>
+            <ComboBoxItem Content="Kanada"/>
+            <ComboBoxItem Content="Monako"/>
+            <ComboBoxItem Content="Francja"/>
+            <ComboBoxItem Content="Bahrajn"/>
+            <ComboBoxItem Content="Wielka Brytania"/>
+            <ComboBoxItem Content="Niemcy"/>
+            <ComboBoxItem Content="Węgry"/>
+            <ComboBoxItem Content="Belgia"/>
+            <ComboBoxItem Content="Włochy"/>
+            <ComboBoxItem Content="Singapur"/>
+            <ComboBoxItem Content="Rosja"/>
+            <ComboBoxItem Content="Japonia"/>
+            <ComboBoxItem Content="Meksyk"/>
+            <ComboBoxItem Content="USA"/>
+            <ComboBoxItem Content="Brazylia"/>
+            <ComboBoxItem Content="ZEA"/>
+        </ComboBox>
+        <Button x:Name="SaveNewRaceButton" Content="Zapisz wyścig" HorizontalAlignment="Left" Margin="533,559,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Normal" Width="268" Click="SaveNewRaceButton_Click"/>
     </Grid>
 </Window>
