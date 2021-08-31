@@ -105,7 +105,7 @@ namespace formula1
                 ReadDataProgressBar.Dispatcher.Invoke(() => ReadDataProgressBar.Value += 10, DispatcherPriority.Background);
 
                 for (int i = 0; i < 8; i++)
-                { 
+                {
                     Input = new OcrInput();
                     yValue = 366 + 40 * i;
                     ContentArea = new System.Drawing.Rectangle() { X = 646, Y = yValue, Height = 38, Width = 284 };
@@ -296,10 +296,53 @@ namespace formula1
             RaceDatePicker.SelectedDate = null;
         }
 
+        private bool IsCorrectFormatOfPlayersPlaced()
+        {
+            int placedPlayers = 0;
+            for (int i = 0; i < playerComboBoxes.Count; i++)
+            {
+                if (playerComboBoxes[i].SelectedIndex > 0)
+                {
+                    placedPlayers++;
+                }
+            }
+
+            for (int i = 0; i < placedPlayers; i++)
+            {
+                if (playerComboBoxes[i].SelectedIndex <= 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private int GetNumberOfPlayers()
+        {
+            int players = 0;
+            foreach (ComboBox comboBox in playerComboBoxes)
+            {
+                if (comboBox.SelectedIndex > 0)
+                {
+                    players++;
+                }
+            }
+            return players;
+        }
+
         private void SaveNewRaceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsEveryPlayerPlaced())
+            if (IsCorrectFormatOfPlayersPlaced())
             {
+                if (!IsEveryPlayerPlaced())
+                {
+                    string message = string.Format("Nie wypełniono wszystkich pozycji. Czy chcesz zapisać wyścig z następującą liczbą uczestników: {0}?", GetNumberOfPlayers());
+                    MessageBoxResult result = MessageBox.Show(message, "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if (result == MessageBoxResult.No)
+                    {
+                        return;
+                    }
+                }
                 if (IsFastestLapChecked())
                 {
                     if (IsDatePicked())
@@ -319,7 +362,7 @@ namespace formula1
                                     SqlCommand command;
                                     int position;
 
-                                    for (int i = 0; i < 8; i++)
+                                    for (int i = 0; i < GetNumberOfPlayers(); i++)
                                     {
                                         position = i + 1;
                                         if (playerComboBoxes[i].Text == GetFastestLapPlayerNickname())
@@ -336,17 +379,17 @@ namespace formula1
                                         command.ExecuteNonQuery();
                                         command.Connection.Close();
                                     }
-                                    MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
-                                    ResetControls();
                                 }
                                 catch (Exception exception)
                                 {
                                     MessageBox.Show("Wystąpił błąd podczas zapisywania danych wyścigu. Skontakuj się z administratorem.", "Błąd zapisu", MessageBoxButton.OK, MessageBoxImage.Error);
                                     Trace.WriteLine(exception.Message);
                                 }
+                                MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
+                                ResetControls();
+                                Trace.WriteLine("zapis zakonczony!");
+                                UpdateRanking();
                             }
-                            Trace.WriteLine("zapis zakonczony!");
-                            UpdateRanking();
                         }
                         else
                         {
@@ -377,6 +420,8 @@ namespace formula1
                 Trace.WriteLine("nie zaznaczono wszystkich pozycji!");
             }
         }
+    
+        
 
         private void SetAllTheFastestLapButtonsToGray()
         {
