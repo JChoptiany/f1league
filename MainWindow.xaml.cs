@@ -604,5 +604,31 @@ namespace formula1
                 PlayerStatisticsRightTextBox.Text = "";
             }
         }
+
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                if (IndividualTabItem.IsSelected)
+                {
+                    OneToFourNumerationPanel.Visibility = Visibility.Visible;
+                    FiveToEightNumerationPanel.Visibility = Visibility.Visible;
+                }
+                else if (TeamTabItem.IsSelected)
+                {
+                    OneToFourNumerationPanel.Visibility = Visibility.Visible;
+                    FiveToEightNumerationPanel.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    OneToFourNumerationPanel.Visibility = Visibility.Hidden;
+                    FiveToEightNumerationPanel.Visibility = Visibility.Hidden;
+                }
+            }
+            catch (Exception exception)
+            {
+                Trace.WriteLine(exception.Message);
+            }
+        }
     }
 }

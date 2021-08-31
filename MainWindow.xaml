@@ -141,18 +141,18 @@
             <ComboBoxItem Content="ZEA"/>
         </ComboBox>
         <Button x:Name="SaveNewRaceButton" Content="Zapisz wyścig" HorizontalAlignment="Left" Margin="830,617,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Bold" Width="278" Click="SaveNewRaceButton_Click" Background="#FFE10600" Foreground="White" Height="79"/>
-        <TabControl Margin="690,196,31,245" Background="#FF242424" Foreground="White" BorderBrush="#FF8B8B8B">
-            <TabItem x:Name="Indywidualna" Header="Indywidualna" FontSize="18">
+        <TabControl Margin="690,196,31,245" Background="#FF242424" Foreground="White" BorderBrush="#FF8B8B8B" SelectionChanged="TabControl_SelectionChanged">
+            <TabItem x:Name="IndividualTabItem" Header="Indywidualna" FontSize="18">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="IndividualRankingDataGrid" AutoGenerateColumns="True" FontSize="22" Background="#FF242424" Foreground="Black" BorderBrush="#FF494949" CanUserAddRows="False" IsReadOnly="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" Width="553" Height="298.06"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Druzynowa" Header="Drużynowa" FontSize="18">
+            <TabItem x:Name="TeamTabItem" Header="Drużynowa" FontSize="18">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="TeamRankingDataGrid" AutoGenerateColumns="True" FontSize="22" Background="#FF242424" Foreground="Black" BorderBrush="#FF494949" CanUserAddRows="False" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False"/>
                 </Grid>
             </TabItem>
-            <TabItem x:Name="Statystyki" Header="Statystyki kierowcy" FontSize="18">
+            <TabItem x:Name="StatisticsTabItem" Header="Statystyki kierowcy" FontSize="18">
                 <Grid Background="#FF242424">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="32*"/>
@@ -263,23 +263,27 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Label Content="1." HorizontalAlignment="Left" Margin="661,267,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FFCCAC00" Height="39"/>
-        <Label Content="4." HorizontalAlignment="Left" Margin="661,0,0,0" VerticalAlignment="Center" FontWeight="Normal" FontSize="16" Foreground="White" Height="49"/>
-        <Label Content="2." HorizontalAlignment="Left" Margin="661,301,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FFB8B4B6" Height="40"/>
-        <Label Content="3." HorizontalAlignment="Left" Margin="661,333,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Foreground="#FFB1703A" Height="43"/>
-        <Label Content="6." HorizontalAlignment="Left" Margin="661,428,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="16" Foreground="White" Height="46"/>
-        <Label Content="5." HorizontalAlignment="Left" Margin="661,396,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="16" Foreground="White" Height="47"/>
-        <Label Content="7." HorizontalAlignment="Left" Margin="661,459,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="16" Foreground="White" Height="48"/>
-        <Label Content="8." HorizontalAlignment="Left" Margin="661,494,0,0" VerticalAlignment="Top" FontWeight="Normal" FontSize="16" Foreground="White" Height="68" RenderTransformOrigin="0.5,0.5">
-            <Label.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleY="1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Label.RenderTransform>
-        </Label>
+        <StackPanel x:Name="OneToFourNumerationPanel" HorizontalAlignment="Left" Orientation="Vertical" VerticalAlignment="Top" Margin="661,271,0,0" Height="130">
+            <Label Content="1." FontWeight="Bold" FontSize="16" Foreground="#FFCCAC00" Height="32"/>
+            <Label Content="2." FontWeight="Bold" FontSize="16" Foreground="#FFB8B4B6" Height="31"/>
+            <Label Content="3." FontWeight="Bold" FontSize="16" Foreground="#FFB1703A" Height="31"/>
+            <Label Content="4." FontWeight="Normal" FontSize="16" Foreground="White" Height="30"/>
+        </StackPanel>
+        <StackPanel x:Name="FiveToEightNumerationPanel" HorizontalAlignment="Left" Margin="661,396,0,0" Orientation="Vertical" VerticalAlignment="Top" Height="134">
+            <Label Content="5." FontWeight="Normal" FontSize="16" Foreground="White" Height="31"/>
+            <Label Content="6." FontWeight="Normal" FontSize="16" Foreground="White" Height="33"/>
+            <Label Content="7." FontWeight="Normal" FontSize="16" Foreground="White" Height="35"/>
+            <Label Content="8." FontWeight="Normal" FontSize="16" Foreground="White" Height="52" RenderTransformOrigin="0.5,0.5">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleY="1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+        </StackPanel>
         <ProgressBar x:Name="ReadDataProgressBar" HorizontalAlignment="Left" Height="21" Margin="159,665,0,0" VerticalAlignment="Top" Width="349"/>
     </Grid>
 </Window>
