@@ -211,7 +211,7 @@ namespace formula1
                     dataAdapter.Update(dataTable);
 
                     // Team Table
-                    queryString = "SELECT Zespół = (SELECT dbo.Players.team_name FROM dbo.Players WHERE nickname = dbo.Results.player_nickname), SUM(dbo.Results.points) AS 'Punkty' FROM dbo.Results GROUP BY dbo.Results.player_nickname ORDER BY Punkty DESC;";
+                    queryString = "SELECT Players.team_name AS 'Zespół', Sum(Results.points) AS 'Punkty' FROM Players INNER JOIN Results ON Players.nickname = Results.player_nickname GROUP BY Players.team_name ORDER BY Sum(Results.points) DESC;";
                     connection.Open();
                     command = new SqlCommand(queryString, connection);
                     command.ExecuteNonQuery();
