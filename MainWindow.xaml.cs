@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace formula1
 {
@@ -35,7 +36,7 @@ namespace formula1
         private void CenterWindow()
         {
             double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight =SystemParameters.PrimaryScreenHeight;
+            double screenHeight = SystemParameters.PrimaryScreenHeight;
             double windowWidth = this.Width;
             double windowHeight = this.Height;
             this.Left = (screenWidth / 2) - (windowWidth / 2);
@@ -79,6 +80,8 @@ namespace formula1
 
         private void AddResultsButton_Click(object sender, RoutedEventArgs e)
         {
+            ReadDataProgressBar.Value = 0;
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
@@ -86,8 +89,12 @@ namespace formula1
 
                 string[] players = new string[NUMBER_OF_PLAYERS];
 
+                ReadDataProgressBar.Dispatcher.Invoke(() => ReadDataProgressBar.Value += 5, DispatcherPriority.Background);
+
                 var Ocr = new IronTesseract();
+
                 Ocr.Configuration.EngineMode = TesseractEngineMode.TesseractAndLstm;
+
                 Ocr.Configuration.WhiteListCharacters = "jqobTOXAdamndPcynLeikpsiuWO";
 
                 System.Drawing.Rectangle ContentArea;
@@ -95,8 +102,10 @@ namespace formula1
                 OcrInput Input;
                 int yValue;
 
+                ReadDataProgressBar.Dispatcher.Invoke(() => ReadDataProgressBar.Value += 10, DispatcherPriority.Background);
+
                 for (int i = 0; i < 8; i++)
-                {
+                { 
                     Input = new OcrInput();
                     yValue = 366 + 40 * i;
                     ContentArea = new System.Drawing.Rectangle() { X = 646, Y = yValue, Height = 38, Width = 284 };
@@ -123,7 +132,10 @@ namespace formula1
                     {
                         players[i] = Result.Text;
                     }
+                    ReadDataProgressBar.Dispatcher.Invoke(() => ReadDataProgressBar.Value += 10, DispatcherPriority.Background);
                 }
+
+                ResetControls();
 
                 Player1ComboBox.Text = players[0];
                 Player2ComboBox.Text = players[1];
@@ -133,6 +145,9 @@ namespace formula1
                 Player6ComboBox.Text = players[5];
                 Player7ComboBox.Text = players[6];
                 Player8ComboBox.Text = players[7];
+
+                ReadDataProgressBar.Dispatcher.Invoke(() => ReadDataProgressBar.Value += 5, DispatcherPriority.Background);
+
 
                 Trace.WriteLine("done");
             }
@@ -227,7 +242,7 @@ namespace formula1
                 catch (Exception exception)
                 {
                     Trace.WriteLine(exception.Message);
-                }               
+                }
             }
         }
 
@@ -263,6 +278,22 @@ namespace formula1
                 points++;
             }
             return points;
+        }
+
+        private void SetAllPlayerComboBoxesToDefault()
+        {
+            foreach (ComboBox comboBox in playerComboBoxes)
+            {
+                comboBox.SelectedItem = 0;
+            }
+        }
+
+        private void ResetControls()
+        {
+            SetAllTheFastestLapButtonsToGray();
+            SetAllPlayerComboBoxesToDefault();
+            TrackComboBox.SelectedIndex = 0;
+            RaceDatePicker.SelectedDate = null;
         }
 
         private void SaveNewRaceButton_Click(object sender, RoutedEventArgs e)
@@ -306,6 +337,7 @@ namespace formula1
                                         command.Connection.Close();
                                     }
                                     MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
+                                    ResetControls();
                                 }
                                 catch (Exception exception)
                                 {
@@ -325,7 +357,7 @@ namespace formula1
                     else
                     {
                         MessageBoxResult result = MessageBox.Show("Nie podano daty wyścigu!\nCzy podać dzisiejszą datę?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        if(result == MessageBoxResult.Yes)
+                        if (result == MessageBoxResult.Yes)
                         {
                             RaceDatePicker.SelectedDate = DateTime.Now;
                             SaveNewRaceButton_Click(sender, e);
@@ -347,13 +379,13 @@ namespace formula1
         }
 
         private void SetAllTheFastestLapButtonsToGray()
-        {           
+        {
             foreach (Button button in fastestLapButtons)
             {
                 button.Background = grayButtonBrush;
             }
         }
-       
+
         private void FastestLapButton_Click(object sender, RoutedEventArgs e)
         {
             SetAllTheFastestLapButtonsToGray();
@@ -367,7 +399,7 @@ namespace formula1
 
         private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if(e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
             {
                 DragMove();
             }

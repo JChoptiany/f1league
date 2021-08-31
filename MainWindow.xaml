@@ -17,7 +17,7 @@
                 </Button.Background>
             </Button>
         </Grid>
-        <Button x:Name="AddResultsButton" Content="Wczytaj dane ze zdjęcia (BETA)" HorizontalAlignment="Left" Margin="159,631,0,0" VerticalAlignment="Top" Width="349" Height="39" FontSize="20" Click="AddResultsButton_Click"/>
+        <Button x:Name="AddResultsButton" Content="Wczytaj dane ze zdjęcia (BETA)" HorizontalAlignment="Left" Margin="159,621,0,0" VerticalAlignment="Top" Width="349" Height="39" FontSize="20" Click="AddResultsButton_Click"/>
         <Label Content="Klasyfikacja globalna" FontFamily="{StaticResource Formula1}" HorizontalAlignment="Left" Margin="690,129,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" RenderTransformOrigin="0.333,0.766" Width="559" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"/>
         <Label Content="1." HorizontalAlignment="Left" Margin="100,44,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
         <Label Content="4." HorizontalAlignment="Left" Margin="100,262,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
@@ -250,5 +250,6 @@
                 </TransformGroup>
             </Label.RenderTransform>
         </Label>
+        <ProgressBar x:Name="ReadDataProgressBar" HorizontalAlignment="Left" Height="21" Margin="159,665,0,0" VerticalAlignment="Top" Width="349"/>
     </Grid>
 </Window>
