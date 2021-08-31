@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Zrzut_ekranu_361.png" />
+    <None Remove="Fonts\Formula1-Black.ttf" />
+    <None Remove="Fonts\Formula1-Bold.ttf" />
+    <None Remove="Fonts\Formula1-Regular.ttf" />
+    <None Remove="Fonts\Formula1-Wide.ttf" />
+    <None Remove="Images\f1logo.png" />
+    <None Remove="Images\fastestLapImage.jpg" />
+    <None Remove="Images\fastestLapImageGray.jpg" />
+    <None Remove="Images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +23,27 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Zrzut_ekranu_361.png" />
+    <Resource Include="Fonts\Formula1-Black.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Formula1-Bold.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Formula1-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Formula1-Wide.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\fastestLapImage.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\fastestLapImageGray.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

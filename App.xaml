@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:formula1"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="Formula1">pack://application:,,,/Fonts/#Folmula1</FontFamily>
     </Application.Resources>
 </Application>

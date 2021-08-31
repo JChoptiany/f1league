@@ -1,43 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
-using System.IO;
 using Microsoft.Win32;
 using IronOcr;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Data;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace formula1
 {
     public partial class MainWindow : Window
-    { 
+    {
         private const int NUMBER_OF_PLAYERS = 8;
-        private static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jakub\source\repos\formula1\Database.mdf;Integrated Security=True";
+        private const string CONNECTION_STRING = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\jakub\source\repos\formula1\Database.mdf;Integrated Security=True";
+        private ImageBrush purpleButtonBrush;
+        private ImageBrush grayButtonBrush;
         private List<ComboBox> playerComboBoxes;
-        private List<RadioButton> fastestLapRadioButtons;
+        private List<Button> fastestLapButtons;
 
         public MainWindow()
         {
             InitializeComponent();
+            CenterWindow();
             AddPlayerComboBoxesToList();
-            AddFastestLapRadioButtonsToList();
+            AddFastestLapButtonsToList();
             UpdateRanking();
+            InitializeButtonBrushes();
         }
-        private void AddFastestLapRadioButtonsToList()
+
+        private void CenterWindow()
         {
-            fastestLapRadioButtons = new List<RadioButton>();
-            fastestLapRadioButtons.Add(FastestLap1RadioButton);
-            fastestLapRadioButtons.Add(FastestLap2RadioButton);
-            fastestLapRadioButtons.Add(FastestLap3RadioButton);
-            fastestLapRadioButtons.Add(FastestLap4RadioButton);
-            fastestLapRadioButtons.Add(FastestLap5RadioButton);
-            fastestLapRadioButtons.Add(FastestLap6RadioButton);
-            fastestLapRadioButtons.Add(FastestLap7RadioButton);
-            fastestLapRadioButtons.Add(FastestLap8RadioButton);
+            double screenWidth = SystemParameters.PrimaryScreenWidth;
+            double screenHeight =SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
+        }
+
+        private void InitializeButtonBrushes()
+        {
+            purpleButtonBrush = new ImageBrush();
+            grayButtonBrush = new ImageBrush();
+
+            purpleButtonBrush.ImageSource = new BitmapImage(new Uri("../../../Images/fastestLapImage.jpg", UriKind.Relative));
+            grayButtonBrush.ImageSource = new BitmapImage(new Uri("../../../Images/fastestLapImageGray.jpg", UriKind.Relative));
+        }
+
+        private void AddFastestLapButtonsToList()
+        {
+            fastestLapButtons = new List<Button>();
+            fastestLapButtons.Add(FastestLap1Button);
+            fastestLapButtons.Add(FastestLap2Button);
+            fastestLapButtons.Add(FastestLap3Button);
+            fastestLapButtons.Add(FastestLap4Button);
+            fastestLapButtons.Add(FastestLap5Button);
+            fastestLapButtons.Add(FastestLap6Button);
+            fastestLapButtons.Add(FastestLap7Button);
+            fastestLapButtons.Add(FastestLap8Button);
         }
 
         private void AddPlayerComboBoxesToList()
@@ -51,16 +75,6 @@ namespace formula1
             playerComboBoxes.Add(Player6ComboBox);
             playerComboBoxes.Add(Player7ComboBox);
             playerComboBoxes.Add(Player8ComboBox);
-        }
-
-        private void IndividualRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            TableTitleLabel.Content = "Klasyfikacja indywidualna";
-        }
-
-        private void TeamRadioButton_Checked(object sender, RoutedEventArgs e)
-        {
-            TableTitleLabel.Content = "Klasyfikacja drużynowa";
         }
 
         private void AddResultsButton_Click(object sender, RoutedEventArgs e)
@@ -97,7 +111,7 @@ namespace formula1
                     {
                         players[i] = "jqob";
                     }
-                    else if(Result.Text == "W"  || Result.Text == "WOW")
+                    else if (Result.Text == "W" || Result.Text == "WOW")
                     {
                         players[i] = "WOW";
                     }
@@ -112,8 +126,8 @@ namespace formula1
                 }
 
                 Player1ComboBox.Text = players[0];
-                Player2ComboBox.Text = players[1]; 
-                Player3ComboBox.Text = players[2]; 
+                Player2ComboBox.Text = players[1];
+                Player3ComboBox.Text = players[2];
                 Player4ComboBox.Text = players[3];
                 Player5ComboBox.Text = players[4];
                 Player6ComboBox.Text = players[5];
@@ -126,7 +140,7 @@ namespace formula1
 
         private bool IsEveryPlayerPlaced()
         {
-            foreach(ComboBox comboBox in playerComboBoxes)
+            foreach (ComboBox comboBox in playerComboBoxes)
             {
                 if (comboBox.Text == string.Empty || comboBox.Text == "Wybierz zawodnika")
                 {
@@ -138,9 +152,9 @@ namespace formula1
 
         private bool IsFastestLapChecked()
         {
-            foreach (RadioButton radioButton in fastestLapRadioButtons)
+            foreach (Button button in fastestLapButtons)
             {
-                if (radioButton.IsChecked == true)
+                if (button.Background == purpleButtonBrush)
                 {
                     return true;
                 }
@@ -160,9 +174,9 @@ namespace formula1
 
         private string GetFastestLapPlayerNickname()
         {
-            for(int i = 0; i < 8; i++)
+            for (int i = 0; i < 8; i++)
             {
-                if(fastestLapRadioButtons[i].IsChecked == true)
+                if (fastestLapButtons[i].Background == purpleButtonBrush)
                 {
                     return playerComboBoxes[i].Text;
                 }
@@ -172,29 +186,48 @@ namespace formula1
 
         private void UpdateRanking()
         {
-            string queryString = "SELECT player_nickname AS 'Zawodnik', SUM(points) AS 'Punkty' FROM dbo.Results GROUP BY player_nickname ORDER BY SUM(points) DESC;";
+            string queryString;
+            SqlCommand command;
+            SqlDataAdapter dataAdapter;
+            DataTable dataTable;
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
             {
                 try
                 {
-                    connection.Open();
-                    SqlCommand command = new SqlCommand(queryString, connection);
-                    command.ExecuteNonQuery();
+                    // Individual table
+                    queryString = "SELECT dbo.Results.player_nickname AS 'Zawodnik', SUM(dbo.Results.points) AS 'Punkty', Zespół = (SELECT dbo.Players.team_name FROM dbo.Players WHERE nickname = dbo.Results.player_nickname) FROM dbo.Results GROUP BY dbo.Results.player_nickname ORDER BY Punkty DESC;";
 
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
-                    DataTable dataTable = new DataTable("Results");
+                    connection.Open();
+                    command = new SqlCommand(queryString, connection);
+                    command.ExecuteNonQuery();
+                    connection.Close();
+
+                    dataAdapter = new SqlDataAdapter(command);
+                    dataTable = new DataTable("Results");
                     dataAdapter.Fill(dataTable);
 
-                    RankingDataGrid.ItemsSource = dataTable.DefaultView;
+                    IndividualRankingDataGrid.ItemsSource = dataTable.DefaultView;
                     dataAdapter.Update(dataTable);
 
+                    // Team Table
+                    queryString = "SELECT Zespół = (SELECT dbo.Players.team_name FROM dbo.Players WHERE nickname = dbo.Results.player_nickname), SUM(dbo.Results.points) AS 'Punkty' FROM dbo.Results GROUP BY dbo.Results.player_nickname ORDER BY Punkty DESC;";
+                    connection.Open();
+                    command = new SqlCommand(queryString, connection);
+                    command.ExecuteNonQuery();
                     connection.Close();
+
+                    dataAdapter = new SqlDataAdapter(command);
+                    dataTable = new DataTable("Results");
+                    dataAdapter.Fill(dataTable);
+
+                    TeamRankingDataGrid.ItemsSource = dataTable.DefaultView;
+                    dataAdapter.Update(dataTable);
                 }
                 catch (Exception exception)
                 {
-                    Console.WriteLine(exception.Message);
-                }
+                    Trace.WriteLine(exception.Message);
+                }               
             }
         }
 
@@ -222,7 +255,7 @@ namespace formula1
                     points = 1;
                     break;
                 default:
-                    points = 0; 
+                    points = 0;
                     break;
             }
             if (isTheFastestLap)
@@ -234,17 +267,17 @@ namespace formula1
 
         private void SaveNewRaceButton_Click(object sender, RoutedEventArgs e)
         {
-            if(IsEveryPlayerPlaced())     
+            if (IsEveryPlayerPlaced())
             {
-                if(IsFastestLapChecked())
+                if (IsFastestLapChecked())
                 {
-                    if(IsDatePicked())
+                    if (IsDatePicked())
                     {
-                        if(IsTrackChecked())
+                        if (IsTrackChecked())
                         {
                             Trace.WriteLine("rozpoczynam zapis!");
 
-                            using (SqlConnection connection = new SqlConnection(connectionString))
+                            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
                             {
                                 try
                                 {
@@ -257,7 +290,7 @@ namespace formula1
 
                                     for (int i = 0; i < 8; i++)
                                     {
-                                        position = i+1;
+                                        position = i + 1;
                                         if (playerComboBoxes[i].Text == GetFastestLapPlayerNickname())
                                         {
                                             queryString = string.Format("INSERT INTO dbo.Results (player_nickname, track_country, position, is_the_fastest_lap, date, points) VALUES('{0}', '{1}', {2}, {3}, '{4}', {5});", playerComboBoxes[i].Text, trackCountry, position, 1, raceDate, CalculatePoints(position, true));
@@ -271,10 +304,12 @@ namespace formula1
                                         command.Connection.Open();
                                         command.ExecuteNonQuery();
                                         command.Connection.Close();
-                                    }                                       
+                                    }
+                                    MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
                                 }
                                 catch (Exception exception)
                                 {
+                                    MessageBox.Show("Wystąpił błąd podczas zapisywania danych wyścigu. Skontakuj się z administratorem.", "Błąd zapisu", MessageBoxButton.OK, MessageBoxImage.Error);
                                     Trace.WriteLine(exception.Message);
                                 }
                             }
@@ -283,22 +318,58 @@ namespace formula1
                         }
                         else
                         {
+                            MessageBox.Show("Nie wybrano toru!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
                             Trace.WriteLine("nie wybrano toru!");
                         }
                     }
                     else
                     {
+                        MessageBoxResult result = MessageBox.Show("Nie podano daty wyścigu!\nCzy podać dzisiejszą datę?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        if(result == MessageBoxResult.Yes)
+                        {
+                            RaceDatePicker.SelectedDate = DateTime.Now;
+                            SaveNewRaceButton_Click(sender, e);
+                        }
                         Trace.WriteLine("nie podano daty!");
                     }
                 }
                 else
                 {
+                    MessageBox.Show("Nie zaznaczono najszybszego okrążenia!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
                     Trace.WriteLine("nie zaznaczono najszybszego okrazenia");
                 }
             }
             else
             {
+                MessageBox.Show("Nie zaznaczono wszystkich pozycji!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Trace.WriteLine("nie zaznaczono wszystkich pozycji!");
+            }
+        }
+
+        private void SetAllTheFastestLapButtonsToGray()
+        {           
+            foreach (Button button in fastestLapButtons)
+            {
+                button.Background = grayButtonBrush;
+            }
+        }
+       
+        private void FastestLapButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetAllTheFastestLapButtonsToGray();
+            (sender as Button).Background = purpleButtonBrush;
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Grid_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if(e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                DragMove();
             }
         }
     }
