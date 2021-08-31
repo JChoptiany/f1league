@@ -449,5 +449,160 @@ namespace formula1
                 DragMove();
             }
         }
+
+        private void SearchPlayerDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            if(StatisticsPlayerComboBox.SelectedIndex > 0)
+            {
+                string playerNickname = StatisticsPlayerComboBox.Text;
+
+                Trace.WriteLine("rozpoczeto");
+                int numberOfRaces = 0;
+                int numberOfTheFastestLaps = 0;
+                int numberOfWins = 0;
+                int numberOfPoints = 0;
+                int numberOfPodiums = 0;
+                double winPercentage = 0d;
+                double podiumPercentage = 0d;
+                string firstName = "not found";
+                string secondName = "not found";
+                string teamName = "not found";
+                string teammate = "not found";
+
+                DateTime recentRaceDate;
+                string recentRaceDateStr = "none";
+
+                string queryString;
+                SqlCommand command;
+                object result;
+
+                string statisticsTextLeft;
+                string statisticsTextRight;
+
+
+                using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+                {
+                    try
+                    {
+                        // number of races
+                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}';", playerNickname);
+                        connection.Open();
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            numberOfRaces = Convert.ToInt32(result);
+                        }
+
+                        // number of wins
+                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' AND dbo.Results.position = 1;", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            numberOfWins = Convert.ToInt32(result);
+                        }
+
+                        // number of podiums
+                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' AND dbo.Results.position <= 3;", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            numberOfPodiums = Convert.ToInt32(result);
+                        }
+
+                        // number of the fastest laps
+                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' AND dbo.Results.is_the_fastest_lap = 1;", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            numberOfTheFastestLaps = Convert.ToInt32(result);
+                        }
+
+                        // number of points
+                        queryString = string.Format("SELECT SUM(dbo.Results.points) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}';", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            numberOfPoints = Convert.ToInt32(result);
+                        }
+
+                        // first name
+                        queryString = string.Format("SELECT dbo.Players.first_name FROM dbo.Players WHERE dbo.Players.nickname = '{0}';", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            firstName = result.ToString();
+                        }
+
+                        // second name
+                        queryString = string.Format("SELECT dbo.Players.second_name FROM dbo.Players WHERE dbo.Players.nickname = '{0}';", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            secondName = result.ToString();
+                        }
+
+                        // team name
+                        queryString = string.Format("SELECT dbo.Players.team_name FROM dbo.Players WHERE dbo.Players.nickname = '{0}';", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            teamName = result.ToString();
+                        }
+
+                        // teammate
+                        queryString = string.Format("SELECT dbo.Players.nickname FROM dbo.Players WHERE dbo.Players.team_name = '{0}' AND dbo.Players.nickname != '{1}';", teamName, playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            teammate = result.ToString();
+                        }
+
+                        // recent race date
+                        queryString = string.Format("SELECT TOP 1 dbo.Results.date FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' ORDER BY dbo.Results.date DESC;", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        { 
+                            recentRaceDate = Convert.ToDateTime(result);
+                            recentRaceDateStr = recentRaceDate.ToString("dd.MM.yyyy");
+                        }
+                        
+                        connection.Close();
+
+                        // win percentage
+                        winPercentage = Convert.ToDouble(numberOfWins) / Convert.ToDouble(numberOfRaces) * 100d;
+
+                        // podium percentage
+                        podiumPercentage = Convert.ToDouble(numberOfPodiums) / Convert.ToDouble(numberOfRaces) * 100d;
+                        
+                        statisticsTextLeft = string.Format("Imię: {0}\nNazwisko: {1}\nLiczba wyścigów: {2}\nLiczba zwycięstw: {3}\nProcent zwycięstw: {4}%\nLiczba podiów: {5}\nProcent podiów: {6}%", firstName, secondName, numberOfRaces, numberOfWins, Math.Round(winPercentage, 2), numberOfPodiums, Math.Round(podiumPercentage, 2));
+                        statisticsTextRight = string.Format("Zespół: {0}\nKolega z zespołu: {1}\nLiczba punktów: {2}\nLiczba naj. okrążeń: {3}\nOstatni wyścig: {4}", teamName, teammate, numberOfPoints, numberOfTheFastestLaps, recentRaceDateStr);
+
+                        PlayerStatisticsLeftTextBox.Text = statisticsTextLeft;
+                        PlayerStatisticsRightTextBox.Text = statisticsTextRight;
+
+                    }
+                    catch (Exception exception)
+                    {
+                        Trace.WriteLine(exception.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano zawodnika!", "Błąd wyszukiwania", MessageBoxButton.OK, MessageBoxImage.Warning);
+                PlayerStatisticsLeftTextBox.Text = "";
+                PlayerStatisticsRightTextBox.Text = "";
+            }
+        }
     }
 }

@@ -15,6 +15,7 @@
     <None Remove="Images\fastestLapImage.jpg" />
     <None Remove="Images\fastestLapImageGray.jpg" />
     <None Remove="Images\logo.png" />
+    <None Remove="Images\search.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,6 +43,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\search.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

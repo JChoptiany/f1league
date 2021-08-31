@@ -144,12 +144,42 @@
         <TabControl Margin="690,196,31,245" Background="#FF242424" Foreground="White" BorderBrush="#FF8B8B8B">
             <TabItem x:Name="Indywidualna" Header="Indywidualna" FontSize="18">
                 <Grid Background="#FFE5E5E5">
-                    <DataGrid x:Name="IndividualRankingDataGrid" AutoGenerateColumns="True" FontSize="22" Background="#FF242424" Foreground="Black" BorderBrush="#FF494949" CanUserAddRows="False" IsReadOnly="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False"/>
+                    <DataGrid x:Name="IndividualRankingDataGrid" AutoGenerateColumns="True" FontSize="22" Background="#FF242424" Foreground="Black" BorderBrush="#FF494949" CanUserAddRows="False" IsReadOnly="True" CanUserSortColumns="False" CanUserReorderColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False" CanUserResizeColumns="False" Width="553" Height="298.06"/>
                 </Grid>
             </TabItem>
             <TabItem x:Name="Druzynowa" Header="Drużynowa" FontSize="18">
                 <Grid Background="#FFE5E5E5">
                     <DataGrid x:Name="TeamRankingDataGrid" AutoGenerateColumns="True" FontSize="22" Background="#FF242424" Foreground="Black" BorderBrush="#FF494949" CanUserAddRows="False" IsReadOnly="True" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" CanUserDeleteRows="False" CanUserResizeRows="False"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="Statystyki" Header="Statystyki kierowcy" FontSize="18">
+                <Grid Background="#FF242424">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="32*"/>
+                        <ColumnDefinition Width="47*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Name="PlayerStatisticsLeftTextBox" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="266" Height="241" Foreground="White" FontSize="22" TextAlignment="Left" Margin="10,47,0,0" Grid.ColumnSpan="2"/>
+                    <ComboBox x:Name="StatisticsPlayerComboBox" HorizontalAlignment="Left" Margin="186,10,0,0" VerticalAlignment="Top" Width="188" Grid.ColumnSpan="2" SelectedIndex="0">
+                        <ComboBoxItem Content="Wybierz zawodnika"/>
+                        <ComboBoxItem Content="jqob"/>
+                        <ComboBoxItem Content="TOX"/>
+                        <ComboBoxItem Content="damian"/>
+                        <ComboBoxItem Content="kapsiu"/>
+                        <ComboBoxItem Content="Lemi"/>
+                        <ComboBoxItem Content="Adamond"/>
+                        <ComboBoxItem Content="Pacyna"/>
+                        <ComboBoxItem Content="WOW"/>
+                    </ComboBox>
+                    <Label Content="Zawodnik:" HorizontalAlignment="Left" Margin="90,8,0,0" VerticalAlignment="Top" Foreground="White"/>
+                    <Button x:Name="SearchPlayerDataButton" Content="" Grid.Column="1" HorizontalAlignment="Left" Margin="164,10,0,0" VerticalAlignment="Top" Width="32" Height="32" Click="SearchPlayerDataButton_Click">
+                        <Button.BorderBrush>
+                            <ImageBrush/>
+                        </Button.BorderBrush>
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Images/search.png"/>
+                        </Button.Background>
+                    </Button>
+                    <TextBlock x:Name="PlayerStatisticsRightTextBox" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="266" Height="241" Foreground="White" FontSize="22" TextAlignment="Left" Margin="57,47,0,0" Grid.Column="1"/>
                 </Grid>
             </TabItem>
         </TabControl>
