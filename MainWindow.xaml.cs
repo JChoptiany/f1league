@@ -456,7 +456,6 @@ namespace formula1
             {
                 string playerNickname = StatisticsPlayerComboBox.Text;
 
-                Trace.WriteLine("rozpoczeto");
                 int numberOfRaces = 0;
                 int numberOfTheFastestLaps = 0;
                 int numberOfWins = 0;
@@ -464,6 +463,7 @@ namespace formula1
                 int numberOfPodiums = 0;
                 double winPercentage = 0d;
                 double podiumPercentage = 0d;
+                double averagePosition = 0d;
                 string firstName = "not found";
                 string secondName = "not found";
                 string teamName = "not found";
@@ -575,7 +575,16 @@ namespace formula1
                             recentRaceDate = Convert.ToDateTime(result);
                             recentRaceDateStr = recentRaceDate.ToString("dd.MM.yyyy");
                         }
-                        
+
+                        // average position
+                        queryString = string.Format("SELECT AVG(Cast(dbo.Results.position as Float)) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}';", playerNickname);
+                        command = new SqlCommand(queryString, connection);
+                        result = command.ExecuteScalar();
+                        if (result != null)
+                        {
+                            averagePosition = Convert.ToDouble(result);
+                        }
+
                         connection.Close();
 
                         // win percentage
@@ -585,7 +594,7 @@ namespace formula1
                         podiumPercentage = Convert.ToDouble(numberOfPodiums) / Convert.ToDouble(numberOfRaces) * 100d;
                         
                         statisticsTextLeft = string.Format("Imię: {0}\nNazwisko: {1}\nLiczba wyścigów: {2}\nLiczba zwycięstw: {3}\nProcent zwycięstw: {4}%\nLiczba podiów: {5}\nProcent podiów: {6}%", firstName, secondName, numberOfRaces, numberOfWins, Math.Round(winPercentage, 2), numberOfPodiums, Math.Round(podiumPercentage, 2));
-                        statisticsTextRight = string.Format("Zespół: {0}\nKolega z zespołu: {1}\nLiczba punktów: {2}\nLiczba naj. okrążeń: {3}\nOstatni wyścig: {4}", teamName, teammate, numberOfPoints, numberOfTheFastestLaps, recentRaceDateStr);
+                        statisticsTextRight = string.Format("Zespół: {0}\nKolega z zespołu: {1}\nLiczba punktów: {2}\nLiczba naj. okrążeń: {3}\nOstatni wyścig: {4}\nŚrednia pozycja: {5}", teamName, teammate, numberOfPoints, numberOfTheFastestLaps, recentRaceDateStr, Math.Round(averagePosition, 2));
 
                         PlayerStatisticsLeftTextBox.Text = statisticsTextLeft;
                         PlayerStatisticsRightTextBox.Text = statisticsTextRight;
@@ -604,6 +613,7 @@ namespace formula1
                 PlayerStatisticsRightTextBox.Text = "";
             }
         }
+       
 
         private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
