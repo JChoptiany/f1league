@@ -17,17 +17,17 @@
                 </Button.Background>
             </Button>
         </Grid>
-        <Button x:Name="AddResultsButton" Content="Wczytaj dane ze zdjęcia (BETA)" HorizontalAlignment="Left" Margin="159,621,0,0" VerticalAlignment="Top" Width="349" Height="39" FontSize="20" Click="AddResultsButton_Click"/>
-        <Label Content="Klasyfikacja globalna" FontFamily="{StaticResource Formula1}" HorizontalAlignment="Left" Margin="690,129,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" RenderTransformOrigin="0.333,0.766" Width="559" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"/>
-        <Label Content="1." HorizontalAlignment="Left" Margin="100,44,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="4." HorizontalAlignment="Left" Margin="100,262,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="2." HorizontalAlignment="Left" Margin="100,115,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="3." HorizontalAlignment="Left" Margin="100,192,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="6." HorizontalAlignment="Left" Margin="100,410,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="5." HorizontalAlignment="Left" Margin="100,340,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="7." HorizontalAlignment="Left" Margin="100,478,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <Label Content="8." HorizontalAlignment="Left" Margin="100,546,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
-        <ComboBox x:Name="Player1ComboBox" HorizontalAlignment="Left" Margin="159,48,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <Button x:Name="AddResultsButton" Content="Wczytaj dane ze zdjęcia (BETA)" HorizontalAlignment="Left" Margin="118,658,0,0" VerticalAlignment="Top" Width="348" Height="39" FontSize="20" Click="AddResultsButton_Click"/>
+        <Label Content="Klasyfikacja globalna" FontFamily="Formula1" HorizontalAlignment="Left" Margin="690,129,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" RenderTransformOrigin="0.333,0.766" Width="559" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White"/>
+        <Label Content="1." HorizontalAlignment="Left" Margin="58,81,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="4." HorizontalAlignment="Left" Margin="58,299,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="2." HorizontalAlignment="Left" Margin="58,152,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="3." HorizontalAlignment="Left" Margin="58,229,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="6." HorizontalAlignment="Left" Margin="58,447,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="5." HorizontalAlignment="Left" Margin="58,377,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="7." HorizontalAlignment="Left" Margin="58,515,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <Label Content="8." HorizontalAlignment="Left" Margin="58,583,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="36" Foreground="White"/>
+        <ComboBox x:Name="Player1ComboBox" HorizontalAlignment="Left" Margin="118,85,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -38,7 +38,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player2ComboBox" HorizontalAlignment="Left" Margin="159,119,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player2ComboBox" HorizontalAlignment="Left" Margin="118,156,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -49,7 +49,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player3ComboBox" HorizontalAlignment="Left" Margin="159,192,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player3ComboBox" HorizontalAlignment="Left" Margin="118,229,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -60,7 +60,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player4ComboBox" HorizontalAlignment="Left" Margin="159,266,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player4ComboBox" HorizontalAlignment="Left" Margin="118,303,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -71,7 +71,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player5ComboBox" HorizontalAlignment="Left" Margin="159,340,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player5ComboBox" HorizontalAlignment="Left" Margin="118,377,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -82,7 +82,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player6ComboBox" HorizontalAlignment="Left" Margin="159,410,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player6ComboBox" HorizontalAlignment="Left" Margin="118,447,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -93,7 +93,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player7ComboBox" HorizontalAlignment="Left" Margin="159,480,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player7ComboBox" HorizontalAlignment="Left" Margin="118,517,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -104,7 +104,7 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <ComboBox x:Name="Player8ComboBox" HorizontalAlignment="Left" Margin="159,548,0,0" VerticalAlignment="Top" Width="349" SelectedIndex="0" FontSize="36">
+        <ComboBox x:Name="Player8ComboBox" HorizontalAlignment="Left" Margin="118,585,0,0" VerticalAlignment="Top" Width="348" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz zawodnika"/>
             <ComboBoxItem Content="jqob"/>
             <ComboBoxItem Content="TOX"/>
@@ -115,8 +115,8 @@
             <ComboBoxItem Content="Pacyna"/>
             <ComboBoxItem Content="WOW"/>
         </ComboBox>
-        <DatePicker x:Name="RaceDatePicker" HorizontalAlignment="Left" Margin="352,701,0,0" VerticalAlignment="Top" FontSize="36"/>
-        <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="70,703,0,0" VerticalAlignment="Top" Width="242" SelectedIndex="0" FontSize="36">
+        <DatePicker x:Name="RaceDatePicker" HorizontalAlignment="Left" Margin="1006,573,0,0" VerticalAlignment="Top" FontSize="36"/>
+        <ComboBox x:Name="TrackComboBox" HorizontalAlignment="Left" Margin="690,573,0,0" VerticalAlignment="Top" Width="242" SelectedIndex="0" FontSize="36">
             <ComboBoxItem Content="Wybierz tor"/>
             <ComboBoxItem Content="Australia"/>
             <ComboBoxItem Content="Austria"/>
@@ -140,7 +140,7 @@
             <ComboBoxItem Content="Brazylia"/>
             <ComboBoxItem Content="ZEA"/>
         </ComboBox>
-        <Button x:Name="SaveNewRaceButton" Content="Zapisz wyścig" HorizontalAlignment="Left" Margin="830,617,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Bold" Width="278" Click="SaveNewRaceButton_Click" Background="#FFE10600" Foreground="White" Height="79"/>
+        <Button x:Name="SaveNewRaceButton" Content="Zapisz wyścig" HorizontalAlignment="Left" Margin="830,648,0,0" VerticalAlignment="Top" FontSize="36" FontWeight="Bold" Width="278" Click="SaveNewRaceButton_Click" Background="#FFE10600" Foreground="White" Height="80"/>
         <TabControl Margin="690,196,31,245" Background="#FF242424" Foreground="White" BorderBrush="#FF8B8B8B" SelectionChanged="TabControl_SelectionChanged">
             <TabItem x:Name="IndividualTabItem" Header="Indywidualna" FontSize="18">
                 <Grid Background="#FFE5E5E5">
@@ -183,7 +183,7 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="FastestLap1Button" Content="" HorizontalAlignment="Left" Margin="524,49,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap1Button" Content="" HorizontalAlignment="Left" Margin="482,86,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -193,7 +193,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap2Button" Content="" HorizontalAlignment="Left" Margin="524,119,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap2Button" Content="" HorizontalAlignment="Left" Margin="482,156,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -203,7 +203,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap3Button" Content="" HorizontalAlignment="Left" Margin="524,192,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap3Button" Content="" HorizontalAlignment="Left" Margin="482,229,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -213,7 +213,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap4Button" Content="" HorizontalAlignment="Left" Margin="524,267,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap4Button" Content="" HorizontalAlignment="Left" Margin="482,304,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -223,7 +223,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap5Button" Content="" HorizontalAlignment="Left" Margin="524,342,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap5Button" Content="" HorizontalAlignment="Left" Margin="482,379,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -233,7 +233,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap6Button" Content="" HorizontalAlignment="Left" Margin="524,410,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap6Button" Content="" HorizontalAlignment="Left" Margin="482,447,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -243,7 +243,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap7Button" Content="" HorizontalAlignment="Left" Margin="524,480,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap7Button" Content="" HorizontalAlignment="Left" Margin="482,517,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -253,7 +253,7 @@
                 <ImageBrush ImageSource="/Images/fastestLapImageGray.jpg"/>
             </Button.Background>
         </Button>
-        <Button x:Name="FastestLap8Button" Content="" HorizontalAlignment="Left" Margin="524,549,0,0" VerticalAlignment="Top" Height="53" Width="53" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
+        <Button x:Name="FastestLap8Button" Content="" HorizontalAlignment="Left" Margin="482,586,0,0" VerticalAlignment="Top" Height="53" Width="54" BorderBrush="{x:Null}" Foreground="Black" Click="FastestLapButton_Click">
             <Button.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="50"/>
@@ -284,6 +284,62 @@
                 </Label.RenderTransform>
             </Label>
         </StackPanel>
-        <ProgressBar x:Name="ReadDataProgressBar" HorizontalAlignment="Left" Height="21" Margin="159,665,0,0" VerticalAlignment="Top" Width="349"/>
+        <ProgressBar x:Name="ReadDataProgressBar" HorizontalAlignment="Left" Height="21" Margin="118,702,0,0" VerticalAlignment="Top" Width="348"/>
+        <ComboBox x:Name="Player1SprintComboBox" HorizontalAlignment="Left" Margin="548,85,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player2SprintComboBox" HorizontalAlignment="Left" Margin="548,156,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player3SprintComboBox" HorizontalAlignment="Left" Margin="548,229,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player4SprintComboBox" HorizontalAlignment="Left" Margin="548,303,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player5SprintComboBox" HorizontalAlignment="Left" Margin="548,379,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player6SprintComboBox" HorizontalAlignment="Left" Margin="548,447,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player7SprintComboBox" HorizontalAlignment="Left" Margin="548,517,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
+        <ComboBox x:Name="Player8SprintComboBox" HorizontalAlignment="Left" Margin="548,585,0,0" VerticalAlignment="Top" Width="68" SelectedIndex="0" FontSize="36">
+            <ComboBoxItem Content="-"/>
+
+            <ComboBoxItem Content="P1"/>
+            <ComboBoxItem Content="P2"/>
+            <ComboBoxItem Content="P3"/>
+        </ComboBox>
     </Grid>
 </Window>

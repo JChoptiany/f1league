@@ -21,6 +21,7 @@ namespace formula1
         private ImageBrush purpleButtonBrush;
         private ImageBrush grayButtonBrush;
         private List<ComboBox> playerComboBoxes;
+        private List<ComboBox> playerSprintComboBoxes;
         private List<Button> fastestLapButtons;
 
         public MainWindow()
@@ -28,9 +29,23 @@ namespace formula1
             InitializeComponent();
             CenterWindow();
             AddPlayerComboBoxesToList();
+            AddPlayerSprintComboBoxesToList();
             AddFastestLapButtonsToList();
             UpdateRanking();
             InitializeButtonBrushes();
+        }
+
+        private void AddPlayerSprintComboBoxesToList()
+        {
+            playerSprintComboBoxes = new List<ComboBox>();
+            playerSprintComboBoxes.Add(Player1SprintComboBox);
+            playerSprintComboBoxes.Add(Player2SprintComboBox);
+            playerSprintComboBoxes.Add(Player3SprintComboBox);
+            playerSprintComboBoxes.Add(Player4SprintComboBox);
+            playerSprintComboBoxes.Add(Player5SprintComboBox);
+            playerSprintComboBoxes.Add(Player6SprintComboBox);
+            playerSprintComboBoxes.Add(Player7SprintComboBox);
+            playerSprintComboBoxes.Add(Player8SprintComboBox);
         }
 
         private void CenterWindow()
@@ -81,7 +96,7 @@ namespace formula1
         private void AddResultsButton_Click(object sender, RoutedEventArgs e)
         {
             ReadDataProgressBar.Value = 0;
-
+             
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
@@ -94,12 +109,12 @@ namespace formula1
                 var Ocr = new IronTesseract();
 
                 Ocr.Configuration.EngineMode = TesseractEngineMode.TesseractAndLstm;
-
                 Ocr.Configuration.WhiteListCharacters = "jqobTOXAdamndPcynLeikpsiuWO";
 
                 System.Drawing.Rectangle ContentArea;
 
                 OcrInput Input;
+                System.Drawing.Color c1 = System.Drawing.Color.FromArgb(254,254,254), c2 = System.Drawing.Color.FromArgb(255, 0, 0), c3 = System.Drawing.Color.FromArgb(147, 147, 147);
                 int yValue;
 
                 ReadDataProgressBar.Dispatcher.Invoke(() => ReadDataProgressBar.Value += 10, DispatcherPriority.Background);
@@ -107,6 +122,9 @@ namespace formula1
                 for (int i = 0; i < 8; i++)
                 {
                     Input = new OcrInput();
+                    Input.ReplaceColor(c1, c2, 100);
+                    Input.ReplaceColor(c3, c2, 100);
+
                     yValue = 366 + 40 * i;
                     ContentArea = new System.Drawing.Rectangle() { X = 646, Y = yValue, Height = 38, Width = 284 };
                     Input.AddImage(filePath, ContentArea);
@@ -151,6 +169,52 @@ namespace formula1
 
                 Trace.WriteLine("done");
             }
+        }
+
+        private bool IsSprintPodiumPlaced()
+        {
+            bool p1Placed = false;
+            bool p2Placed = false;
+            bool p3Placed = false;
+
+            foreach (ComboBox comboBox in playerSprintComboBoxes)
+            {
+                if (comboBox.Text == "P1")
+                {
+                    if(p1Placed == true)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        p1Placed = true;
+                    }
+                }
+                else if (comboBox.Text == "P2")
+                {
+                    if (p2Placed == true)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        p2Placed = true;
+                    }
+                }
+                else if (comboBox.Text == "P3")
+                {
+                    if (p3Placed == true)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        p3Placed = true;
+                    }
+                }
+            }
+
+            return p1Placed == true && p2Placed == true && p3Placed == true;
         }
 
         private bool IsEveryPlayerPlaced()
@@ -246,7 +310,7 @@ namespace formula1
             }
         }
 
-        private int CalculatePoints(int position, bool isTheFastestLap)
+        private int CalculatePoints(int position, bool isTheFastestLap, string sprintPosition = "-")
         {
             int points;
             switch (position)
@@ -273,6 +337,22 @@ namespace formula1
                     points = 0;
                     break;
             }
+
+            switch (sprintPosition)
+            {
+                case "P1":
+                    points += 3;
+                    break;
+                case "P2":
+                    points += 2;
+                    break;
+                case "P3":
+                    points += 1;
+                    break;
+                default:
+                    break;
+            }
+
             if (isTheFastestLap)
             {
                 points++;
@@ -284,7 +364,15 @@ namespace formula1
         {
             foreach (ComboBox comboBox in playerComboBoxes)
             {
-                comboBox.SelectedItem = 0;
+                comboBox.SelectedIndex = 0;
+            }
+        }
+
+        private void SetAllPlayerSprintComboBoxesToDefault()
+        {
+            foreach (ComboBox comboBox in playerSprintComboBoxes)
+            {
+                comboBox.SelectedIndex = 0;
             }
         }
 
@@ -292,6 +380,7 @@ namespace formula1
         {
             SetAllTheFastestLapButtonsToGray();
             SetAllPlayerComboBoxesToDefault();
+            SetAllPlayerSprintComboBoxesToDefault();
             TrackComboBox.SelectedIndex = 0;
             RaceDatePicker.SelectedDate = null;
         }
@@ -336,7 +425,8 @@ namespace formula1
             {
                 if (!IsEveryPlayerPlaced())
                 {
-                    string message = string.Format("Nie wypełniono wszystkich pozycji. Czy chcesz zapisać wyścig z następującą liczbą uczestników: {0}?", GetNumberOfPlayers());
+                    Trace.WriteLine("nie wypełniono wszystkich pozycji!");
+                    string message = $"Nie wypełniono wszystkich pozycji. Czy chcesz zapisać wyścig z następującą liczbą uczestników: {GetNumberOfPlayers()}?";
                     MessageBoxResult result = MessageBox.Show(message, "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                     if (result == MessageBoxResult.No)
                     {
@@ -345,67 +435,79 @@ namespace formula1
                 }
                 if (IsFastestLapChecked())
                 {
-                    if (IsDatePicked())
+                    if (!IsSprintPodiumPlaced())
                     {
-                        if (IsTrackChecked())
+                        MessageBoxResult result = MessageBox.Show("Nie podano wyników sprintu lub są one nieprawidłowe! Czy chcesz zapisać wyścig z aktualnie podanymi wynikami kwalifikacji?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                        if (result == MessageBoxResult.No)
                         {
-                            Trace.WriteLine("rozpoczynam zapis!");
-
-                            using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
-                            {
-                                try
-                                {
-                                    string trackCountry = TrackComboBox.Text.ToUpper();
-                                    string raceDate = Convert.ToDateTime(RaceDatePicker.SelectedDate).ToString("yyyy-MM-dd");
-
-                                    string queryString;
-                                    SqlCommand command;
-                                    int position;
-
-                                    for (int i = 0; i < GetNumberOfPlayers(); i++)
-                                    {
-                                        position = i + 1;
-                                        if (playerComboBoxes[i].Text == GetFastestLapPlayerNickname())
-                                        {
-                                            queryString = string.Format("INSERT INTO dbo.Results (player_nickname, track_country, position, is_the_fastest_lap, date, points) VALUES('{0}', '{1}', {2}, {3}, '{4}', {5});", playerComboBoxes[i].Text, trackCountry, position, 1, raceDate, CalculatePoints(position, true));
-                                        }
-                                        else
-                                        {
-                                            queryString = string.Format("INSERT INTO dbo.Results (player_nickname, track_country, position, date, points) VALUES('{0}', '{1}', {2}, '{3}', {4});", playerComboBoxes[i].Text, trackCountry, position, raceDate, CalculatePoints(position, false));
-                                        }
-
-                                        command = new SqlCommand(queryString, connection);
-                                        command.Connection.Open();
-                                        command.ExecuteNonQuery();
-                                        command.Connection.Close();
-                                    }
-                                }
-                                catch (Exception exception)
-                                {
-                                    MessageBox.Show("Wystąpił błąd podczas zapisywania danych wyścigu. Skontakuj się z administratorem.", "Błąd zapisu", MessageBoxButton.OK, MessageBoxImage.Error);
-                                    Trace.WriteLine(exception.Message);
-                                }
-                                MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
-                                ResetControls();
-                                Trace.WriteLine("zapis zakonczony!");
-                                UpdateRanking();
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Nie wybrano toru!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
-                            Trace.WriteLine("nie wybrano toru!");
+                            return;
                         }
                     }
-                    else
+                    if (!IsDatePicked())
                     {
+                        Trace.WriteLine("nie podano daty!");
                         MessageBoxResult result = MessageBox.Show("Nie podano daty wyścigu!\nCzy podać dzisiejszą datę?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                         if (result == MessageBoxResult.Yes)
                         {
                             RaceDatePicker.SelectedDate = DateTime.Now;
-                            SaveNewRaceButton_Click(sender, e);
                         }
-                        Trace.WriteLine("nie podano daty!");
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    if (IsTrackChecked())
+                    {
+                        Trace.WriteLine("rozpoczynam zapis!");
+
+                        using (SqlConnection connection = new SqlConnection(CONNECTION_STRING))
+                        {
+                            try
+                            {
+                                string trackCountry = TrackComboBox.Text.ToUpper();
+                                string raceDate = Convert.ToDateTime(RaceDatePicker.SelectedDate).ToString("yyyy-MM-dd");
+
+                                string queryString;
+                                SqlCommand command;
+                                int position;
+                                int numberOfPoints;
+
+                                for (int i = 0; i < GetNumberOfPlayers(); i++)
+                                {
+                                    position = i + 1;
+
+                                    if (playerComboBoxes[i].Text == GetFastestLapPlayerNickname())
+                                    {
+                                        numberOfPoints = CalculatePoints(position, true, playerSprintComboBoxes[i].Text);
+                                        queryString = $"INSERT INTO dbo.Results (player_nickname, track_country, position, is_the_fastest_lap, date, points) VALUES('{playerComboBoxes[i].Text}', '{trackCountry}', {position}, {1}, '{raceDate}', {numberOfPoints});";
+                                    }
+                                    else
+                                    {
+                                        numberOfPoints = CalculatePoints(position, false, playerSprintComboBoxes[i].Text);
+                                        queryString = $"INSERT INTO dbo.Results (player_nickname, track_country, position, date, points) VALUES('{playerComboBoxes[i].Text}', '{trackCountry}', {position}, '{raceDate}', {numberOfPoints});";
+                                    }
+
+                                    command = new SqlCommand(queryString, connection);
+                                    command.Connection.Open();
+                                    command.ExecuteNonQuery();
+                                    command.Connection.Close();
+                                }
+                            }
+                            catch (Exception exception)
+                            {
+                                MessageBox.Show("Wystąpił błąd podczas zapisywania danych wyścigu. Skontakuj się z administratorem.", "Błąd zapisu", MessageBoxButton.OK, MessageBoxImage.Error);
+                                Trace.WriteLine(exception.Message);
+                            }
+                            MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
+                            ResetControls();
+                            Trace.WriteLine("zapis zakonczony!");
+                            UpdateRanking();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nie wybrano toru!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        Trace.WriteLine("nie wybrano toru!");
                     }
                 }
                 else
@@ -421,8 +523,6 @@ namespace formula1
             }
         }
     
-        
-
         private void SetAllTheFastestLapButtonsToGray()
         {
             foreach (Button button in fastestLapButtons)
@@ -485,7 +585,7 @@ namespace formula1
                     try
                     {
                         // number of races
-                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}';", playerNickname);
+                        queryString = $"SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}';";
                         connection.Open();
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
@@ -495,7 +595,7 @@ namespace formula1
                         }
 
                         // number of wins
-                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' AND dbo.Results.position = 1;", playerNickname);
+                        queryString = $"SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}' AND dbo.Results.position = 1;";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -504,7 +604,7 @@ namespace formula1
                         }
 
                         // number of podiums
-                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' AND dbo.Results.position <= 3;", playerNickname);
+                        queryString = $"SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}' AND dbo.Results.position <= 3;";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -513,7 +613,7 @@ namespace formula1
                         }
 
                         // number of the fastest laps
-                        queryString = string.Format("SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' AND dbo.Results.is_the_fastest_lap = 1;", playerNickname);
+                        queryString = $"SELECT COUNT(dbo.Results.result_id) FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}' AND dbo.Results.is_the_fastest_lap = 1;";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -522,7 +622,7 @@ namespace formula1
                         }
 
                         // number of points
-                        queryString = string.Format("SELECT SUM(dbo.Results.points) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}';", playerNickname);
+                        queryString = $"SELECT SUM(dbo.Results.points) FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}';";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -531,7 +631,7 @@ namespace formula1
                         }
 
                         // first name
-                        queryString = string.Format("SELECT dbo.Players.first_name FROM dbo.Players WHERE dbo.Players.nickname = '{0}';", playerNickname);
+                        queryString = $"SELECT dbo.Players.first_name FROM dbo.Players WHERE dbo.Players.nickname = '{playerNickname}';";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -540,7 +640,7 @@ namespace formula1
                         }
 
                         // second name
-                        queryString = string.Format("SELECT dbo.Players.second_name FROM dbo.Players WHERE dbo.Players.nickname = '{0}';", playerNickname);
+                        queryString = $"SELECT dbo.Players.second_name FROM dbo.Players WHERE dbo.Players.nickname = '{playerNickname}';";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -549,7 +649,7 @@ namespace formula1
                         }
 
                         // team name
-                        queryString = string.Format("SELECT dbo.Players.team_name FROM dbo.Players WHERE dbo.Players.nickname = '{0}';", playerNickname);
+                        queryString = $"SELECT dbo.Players.team_name FROM dbo.Players WHERE dbo.Players.nickname = '{playerNickname}';";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -558,7 +658,7 @@ namespace formula1
                         }
 
                         // teammate
-                        queryString = string.Format("SELECT dbo.Players.nickname FROM dbo.Players WHERE dbo.Players.team_name = '{0}' AND dbo.Players.nickname != '{1}';", teamName, playerNickname);
+                        queryString = $"SELECT dbo.Players.nickname FROM dbo.Players WHERE dbo.Players.team_name = '{teamName}' AND dbo.Players.nickname != '{playerNickname}';";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -567,7 +667,7 @@ namespace formula1
                         }
 
                         // recent race date
-                        queryString = string.Format("SELECT TOP 1 dbo.Results.date FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}' ORDER BY dbo.Results.date DESC;", playerNickname);
+                        queryString = $"SELECT TOP 1 dbo.Results.date FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}' ORDER BY dbo.Results.date DESC;";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -577,7 +677,7 @@ namespace formula1
                         }
 
                         // average position
-                        queryString = string.Format("SELECT AVG(Cast(dbo.Results.position as Float)) FROM dbo.Results WHERE dbo.Results.player_nickname = '{0}';", playerNickname);
+                        queryString = $"SELECT AVG(Cast(dbo.Results.position as Float)) FROM dbo.Results WHERE dbo.Results.player_nickname = '{playerNickname}';";
                         command = new SqlCommand(queryString, connection);
                         result = command.ExecuteScalar();
                         if (result != null)
@@ -592,9 +692,9 @@ namespace formula1
 
                         // podium percentage
                         podiumPercentage = Convert.ToDouble(numberOfPodiums) / Convert.ToDouble(numberOfRaces) * 100d;
-                        
-                        statisticsTextLeft = string.Format("Imię: {0}\nNazwisko: {1}\nLiczba wyścigów: {2}\nLiczba zwycięstw: {3}\nProcent zwycięstw: {4}%\nLiczba podiów: {5}\nProcent podiów: {6}%", firstName, secondName, numberOfRaces, numberOfWins, Math.Round(winPercentage, 2), numberOfPodiums, Math.Round(podiumPercentage, 2));
-                        statisticsTextRight = string.Format("Zespół: {0}\nKolega z zespołu: {1}\nLiczba punktów: {2}\nLiczba naj. okrążeń: {3}\nOstatni wyścig: {4}\nŚrednia pozycja: {5}", teamName, teammate, numberOfPoints, numberOfTheFastestLaps, recentRaceDateStr, Math.Round(averagePosition, 2));
+
+                        statisticsTextLeft = $"Imię: {firstName}\nNazwisko: {secondName}\nLiczba wyścigów: {numberOfRaces}\nLiczba zwycięstw: {numberOfWins}\nProcent zwycięstw: {Math.Round(winPercentage, 2)}%\nLiczba podiów: {numberOfPodiums}\nProcent podiów: {Math.Round(podiumPercentage, 2)}%";
+                        statisticsTextRight = $"Zespół: {teamName}\nKolega z zespołu: {teammate}\nLiczba punktów: {numberOfPoints}\nLiczba naj. okrążeń: {numberOfTheFastestLaps}\nOstatni wyścig: {recentRaceDateStr}\nŚrednia pozycja: {Math.Round(averagePosition, 2)}";
 
                         PlayerStatisticsLeftTextBox.Text = statisticsTextLeft;
                         PlayerStatisticsRightTextBox.Text = statisticsTextRight;
