@@ -158,7 +158,7 @@
                         <ColumnDefinition Width="32*"/>
                         <ColumnDefinition Width="47*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="PlayerStatisticsLeftTextBox" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="266" Height="241" Foreground="White" FontSize="22" TextAlignment="Left" Margin="10,47,0,0" Grid.ColumnSpan="2"/>
+                    <TextBlock x:Name="PlayerStatisticsLeftTextBox" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="266" Height="208" Foreground="White" FontSize="22" TextAlignment="Left" Margin="10,47,0,0" Grid.ColumnSpan="2"/>
                     <ComboBox x:Name="StatisticsPlayerComboBox" HorizontalAlignment="Left" Margin="186,10,0,0" VerticalAlignment="Top" Width="188" Grid.ColumnSpan="2" SelectedIndex="0">
                         <ComboBoxItem Content="Wybierz zawodnika"/>
                         <ComboBoxItem Content="jqob"/>
@@ -179,7 +179,8 @@
                             <ImageBrush ImageSource="/Images/search.png"/>
                         </Button.Background>
                     </Button>
-                    <TextBlock x:Name="PlayerStatisticsRightTextBox" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="266" Height="241" Foreground="White" FontSize="22" TextAlignment="Left" Margin="57,47,0,0" Grid.Column="1"/>
+                    <TextBlock x:Name="PlayerStatisticsRightTextBox" HorizontalAlignment="Left" TextWrapping="WrapWithOverflow" VerticalAlignment="Top" Width="266" Height="209" Foreground="White" FontSize="22" TextAlignment="Left" Margin="57,47,0,0" Grid.Column="1"/>
+                    <Label x:Name="RecentRaceStatisticsLabel" Content="" HorizontalAlignment="Left" Margin="10,251,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="537" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="White" FontSize="22" Height="43"/>
                 </Grid>
             </TabItem>
         </TabControl>
