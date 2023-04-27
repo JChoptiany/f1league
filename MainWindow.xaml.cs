@@ -409,105 +409,103 @@ namespace formula1
 
         private void SaveNewRaceButton_Click(object sender, RoutedEventArgs e)
         {
-            if (IsCorrectFormatOfPlayersPlaced())
-            {
-                if (!IsEveryPlayerPlaced())
-                {
-                    Trace.WriteLine("nie wypełniono wszystkich pozycji!");
-                    string message = $"Nie wypełniono wszystkich pozycji. Czy chcesz zapisać wyścig z następującą liczbą uczestników: {GetNumberOfPlayers()}?";
-                    MessageBoxResult result = MessageBox.Show(message, "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                    if (result == MessageBoxResult.No)
-                    {
-                        return;
-                    }
-                }
-                if (IsFastestLapChecked())
-                {
-                    if (!IsSprintPodiumPlaced())
-                    {
-                        MessageBoxResult result = MessageBox.Show("Nie podano wyników sprintu lub są one nieprawidłowe! Czy chcesz zapisać wyścig z aktualnie podanymi wynikami kwalifikacji?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        if (result == MessageBoxResult.No)
-                        {
-                            return;
-                        }
-                    }
-                    if (!IsDatePicked())
-                    {
-                        Trace.WriteLine("nie podano daty!");
-                        MessageBoxResult result = MessageBox.Show("Nie podano daty wyścigu!\nCzy podać dzisiejszą datę?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-                        if (result == MessageBoxResult.Yes)
-                        {
-                            RaceDatePicker.SelectedDate = DateTime.Now;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                    if (IsTrackChecked())
-                    {
-                        Trace.WriteLine("rozpoczynam zapis!");
-
-                        using SqlConnection connection = new(CONNECTION_STRING);
-                        try
-                        {
-                            string trackCountry = TrackComboBox.Text.ToUpper();
-                            string raceDate = Convert.ToDateTime(RaceDatePicker.SelectedDate).ToString("yyyy-MM-dd");
-
-                            string queryString;
-                            SqlCommand command;
-                            int position;
-                            int numberOfPoints;
-
-                            for (int i = 0; i < GetNumberOfPlayers(); i++)
-                            {
-                                position = i + 1;
-
-                                if (playerComboBoxes[i].Text == GetFastestLapPlayerNickname())
-                                {
-                                    numberOfPoints = CalculatePoints(position, true, playerSprintComboBoxes[i].Text);
-                                    queryString = $"INSERT INTO dbo.Results (player_nickname, track_country, position, is_the_fastest_lap, date, points) VALUES('{playerComboBoxes[i].Text}', '{trackCountry}', {position}, {1}, '{raceDate}', {numberOfPoints});";
-                                }
-                                else
-                                {
-                                    numberOfPoints = CalculatePoints(position, false, playerSprintComboBoxes[i].Text);
-                                    queryString = $"INSERT INTO dbo.Results (player_nickname, track_country, position, date, points) VALUES('{playerComboBoxes[i].Text}', '{trackCountry}', {position}, '{raceDate}', {numberOfPoints});";
-                                }
-
-                                command = new SqlCommand(queryString, connection);
-                                command.Connection.Open();
-                                command.ExecuteNonQuery();
-                                command.Connection.Close();
-                            }
-                        }
-                        catch (Exception exception)
-                        {
-                            MessageBox.Show("Wystąpił błąd podczas zapisywania danych wyścigu. Skontakuj się z administratorem.", "Błąd zapisu", MessageBoxButton.OK, MessageBoxImage.Error);
-                            Trace.WriteLine(exception.Message);
-                        }
-                        MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
-                        ResetControls();
-                        Trace.WriteLine("zapis zakonczony!");
-                        UpdateRanking();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Nie wybrano toru!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
-                        Trace.WriteLine("nie wybrano toru!");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Nie zaznaczono najszybszego okrążenia!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    Trace.WriteLine("nie zaznaczono najszybszego okrazenia");
-                }
-            }
-            else
+            if (!IsCorrectFormatOfPlayersPlaced())
             {
                 MessageBox.Show("Nie zaznaczono wszystkich pozycji!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Trace.WriteLine("nie zaznaczono wszystkich pozycji!");
             }
-        }
+
+            if (!IsEveryPlayerPlaced())
+            {
+                Trace.WriteLine("nie wypełniono wszystkich pozycji!");
+                string message = $"Nie wypełniono wszystkich pozycji. Czy chcesz zapisać wyścig z następującą liczbą uczestników: {GetNumberOfPlayers()}?";
+                MessageBoxResult result = MessageBox.Show(message, "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }
+
+            if (!IsFastestLapChecked())
+            {
+                MessageBox.Show("Nie zaznaczono najszybszego okrążenia!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Trace.WriteLine("nie zaznaczono najszybszego okrazenia");
+            }
+
+            if (!IsSprintPodiumPlaced())
+            {
+                MessageBoxResult result = MessageBox.Show("Nie podano wyników sprintu lub są one nieprawidłowe! Czy chcesz zapisać wyścig z aktualnie podanymi wynikami kwalifikacji?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.No)
+                {
+                    return;
+                }
+            }
+
+            if (!IsDatePicked())
+            {
+                Trace.WriteLine("nie podano daty!");
+                MessageBoxResult result = MessageBox.Show("Nie podano daty wyścigu!\nCzy podać dzisiejszą datę?", "Brakujące dane wyścigu", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    RaceDatePicker.SelectedDate = DateTime.Now;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (!IsTrackChecked())
+            {
+                MessageBox.Show("Nie wybrano toru!", "Brakujące dane wyścigu", MessageBoxButton.OK, MessageBoxImage.Warning);
+                Trace.WriteLine("nie wybrano toru!");
+            }
+
+            Trace.WriteLine("rozpoczynam zapis!");
+
+            using SqlConnection connection = new(CONNECTION_STRING);
+            try
+            {
+                string trackCountry = TrackComboBox.Text.ToUpper();
+                string raceDate = Convert.ToDateTime(RaceDatePicker.SelectedDate).ToString("yyyy-MM-dd");
+
+                string queryString;
+                SqlCommand command;
+                int position;
+                int numberOfPoints;
+
+                for (int i = 0; i < GetNumberOfPlayers(); i++)
+                {
+                    position = i + 1;
+
+                    if (playerComboBoxes[i].Text == GetFastestLapPlayerNickname())
+                    {
+                        numberOfPoints = CalculatePoints(position, true, playerSprintComboBoxes[i].Text);
+                        queryString = $"INSERT INTO dbo.Results (player_nickname, track_country, position, is_the_fastest_lap, date, points) VALUES('{playerComboBoxes[i].Text}', '{trackCountry}', {position}, {1}, '{raceDate}', {numberOfPoints});";
+                    }
+                    else
+                    {
+                        numberOfPoints = CalculatePoints(position, false, playerSprintComboBoxes[i].Text);
+                        queryString = $"INSERT INTO dbo.Results (player_nickname, track_country, position, date, points) VALUES('{playerComboBoxes[i].Text}', '{trackCountry}', {position}, '{raceDate}', {numberOfPoints});";
+                    }
+
+                    command = new SqlCommand(queryString, connection);
+                    command.Connection.Open();
+                    command.ExecuteNonQuery();
+                    command.Connection.Close();
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Wystąpił błąd podczas zapisywania danych wyścigu. Skontakuj się z administratorem.", "Błąd zapisu", MessageBoxButton.OK, MessageBoxImage.Error);
+                Trace.WriteLine(exception.Message);
+            }
+
+            MessageBox.Show("Dane wyścigu zostały zapisane pomyślnie i powinny być za chwilę widoczne w klasyfikacji generalnej", "Zapisano dane", MessageBoxButton.OK, MessageBoxImage.Information);
+            ResetControls();
+            Trace.WriteLine("zapis zakonczony!");
+            UpdateRanking();
+        }    
 
         private void SetAllTheFastestLapButtonsToGray()
         {
@@ -542,7 +540,7 @@ namespace formula1
             {
                 string playerNickname = StatisticsPlayerComboBox.Text;
 
-                Player selectedPlayer = new Player(playerNickname);
+                Player selectedPlayer = new(playerNickname);
                 selectedPlayer.LoadPlayerDataFromDataBase(CONNECTION_STRING);
                 string statisticsTextLeft = selectedPlayer.GetPlayerStatistics(1);
                 string statisticsTextRight = selectedPlayer.GetPlayerStatistics(2);
